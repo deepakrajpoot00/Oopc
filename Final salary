@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+
+class Employee{
+    int salary;
+    int workperday;
+
+    public: 
+            void getInfo(int s,int wpd){
+                salary=s;
+                workperday=wpd;
+            }
+            void AddSal(){
+                if(salary>500){
+                    salary += 10;
+                }
+            }
+            void AddWork(){
+                if(workperday>6){
+                    salary += 5;
+                }
+            }
+            void display(){
+                AddSal();
+                AddWork();
+                cout<<"Final salary : $"<<salary<<endl;
+                }
+};
+int main(){
+    Employee emp;
+    emp.getInfo(3000,7);
+    emp.display();
+}
