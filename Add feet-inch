@@ -1,0 +1,42 @@
+#include<iostream>
+using namespace std;
+
+class AddDistance{
+    int inches;
+    int feet;
+
+    public:
+            AddDistance(int ft,int in){
+                feet=ft;
+                inches=in;
+            }
+            void show(){
+                cout<<"Distance : "<<feet<<" ft "<<inches<<" inch"<<endl;
+            }
+            AddDistance add( AddDistance d){
+                AddDistance result(0,0);
+                result.feet = feet + d.feet;
+                result.inches = inches + d.inches;
+
+            if (result.inches >= 12){
+            result.feet += result.inches / 12;
+            result.inches %= 12;
+            }
+
+            return result;
+                   
+            }
+};
+
+int main(){
+    AddDistance a1(5,8);
+    AddDistance a2(3,10);
+
+    a1.show();
+    a2.show();
+    AddDistance a3 = a1.add(a2);
+    cout << "Sum: ";
+    a3.show();
+
+    return 0;
+}
