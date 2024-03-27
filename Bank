@@ -1,0 +1,151 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Account {
+protected:
+    double balance;
+    bool isStudent; // Added variable to indicate student status
+
+public:
+    Account(double initialBalance) : balance(initialBalance), isStudent(false) {}
+
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Deposited: $" << amount << endl;
+    }
+
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            cout << "Withdrawn: $" << amount << endl;
+        } else {
+            cout << "Insufficient funds. Withdrawal not allowed..." << endl;
+        }
+    }
+
+    void requestLoan(double amount, int duration, char timeUnit) {
+        if (amount > 0 && (timeUnit == 'M' || timeUnit == 'm' || timeUnit == 'Y' || timeUnit == 'y')) {
+            // Check if the user is a student
+            char studentChoice;
+            cout << "Are you a student? ( Y/y for yes, N/n for no): ";
+            cin >> studentChoice;
+            isStudent = (studentChoice == 'Y' || studentChoice == 'y');
+
+            double interestRate = isStudent ? 0.10 : 0.15; // 10% for students, 15% for others
+            double interest = amount * interestRate * duration;
+            balance += amount;
+
+            cout << "Loan request approved: $" << amount << " with " << interestRate * 100 << "% interest for " << duration << " " << (timeUnit == 'M' || timeUnit == 'm' ? "months" : "years") << endl;
+            cout << "Total amount to be repaid: $" << amount + interest << endl;
+        } else {
+            cout << "Invalid loan amount or duration. Please enter a positive value for the loan amount and specify the duration in months (M/m) or years (Y/y)." << endl;
+        }
+    }
+
+    double getBalance() const {
+        return balance;
+    }
+
+    // Removed the setStudentStatus function
+
+    bool getStudentStatus() const {
+        return isStudent;
+    }
+};
+
+class SavingAccount : public Account {
+public:
+    SavingAccount(double initialBalance) : Account(initialBalance) {}
+
+    // You can add specific functions for SavingAccount if needed
+};
+
+class CurrentAccount : public Account {
+public:
+    CurrentAccount(double initialBalance) : Account(initialBalance) {}
+
+    // You can add specific functions for CurrentAccount if needed
+};
+
+int main() {
+    char accountType;
+    double initialBalance;
+
+    cout << "Enter account type (S for Saving, C for Current): ";
+    cin >> accountType;
+
+    cout << "Enter initial balance: $";
+    cin >> initialBalance;
+
+    Account* selectedAccount;
+
+    if (accountType == 'S' || accountType == 's') {
+        SavingAccount savingAccount(initialBalance);
+        selectedAccount = &savingAccount;
+    } else if (accountType == 'C' || accountType == 'c') {
+        CurrentAccount currentAccount(initialBalance);
+        selectedAccount = &currentAccount;
+    } else {
+        cout << "Invalid account type. Exiting program..." << endl;
+        return 1;
+    }
+
+    char choice;
+    do {
+        cout << "\nOptions:\n";
+        cout << "1. Deposit\n";
+        cout << "2. Withdraw\n";
+        cout << "3. Request Loan\n";
+        cout << "4. Check Balance\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                double depositAmount;
+                cout << "Enter deposit amount: $";
+                cin >> depositAmount;
+                selectedAccount->deposit(depositAmount);
+                break;
+
+            case '2':
+                double withdrawAmount;
+                cout << "Enter withdrawal amount: $";
+                cin >> withdrawAmount;
+                selectedAccount->withdraw(withdrawAmount);
+                break;
+
+            case '3':
+                double loanAmount;
+                int loanDuration;
+                char timeUnit;
+
+                cout << "Enter loan amount: $";
+                cin >> loanAmount;
+
+                cout << "Enter loan duration: ";
+                cin >> loanDuration;
+
+                cout << "Enter time unit (M/m for months, Y/y for years): ";
+                cin >> timeUnit;
+
+                selectedAccount->requestLoan(loanAmount, loanDuration, timeUnit);
+                break;
+
+            case '4':
+                cout << "Account Balance: $" << selectedAccount->getBalance() << endl;
+                break;
+
+            case '5':
+                cout << "Exiting program... Goodbye!" << endl;
+                break;
+
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+    } while (choice != '5');
+
+    return 0;
+}
