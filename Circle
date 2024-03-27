@@ -1,0 +1,26 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+class Circle{
+    double radius;
+
+    public:
+            Circle(double r) : radius(r){}
+
+            double area(){
+                return 3.14*radius*radius;
+            }
+            double circum(){
+                return 2*3.14*radius;
+            }
+};
+int main(){
+    double radius;
+    cout<<"Enter radius : ";
+    cin>>radius;
+
+    Circle c(radius);
+    cout<<"Area = "<<c.area()<<endl;
+    cout<<"Circumference = "<<c.circum()<<endl;
+}
