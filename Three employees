@@ -1,0 +1,32 @@
+#include<iostream>
+using namespace std;
+
+class Employee{
+    string name;
+    int year;
+    double salary;
+    string address;
+
+    public:
+            Employee(string n,int y,double sal,string add){
+                name=n;
+                year=y;
+                salary=sal;
+                address=add;
+            }
+            void show(){
+                cout<<name <<"\t"<< year<<"\t\t "<<salary<<"\t "<<address<<endl;
+                }
+};
+
+int main(){
+    Employee e1("Robert",1994,34000,"64C- WallsStreat");
+    Employee e2("Sam",2000,52000,"68D- WallsStreat");
+    Employee e3("John",1999,65000,"26B- WallsStreat");
+
+    cout<<"Name\tYear of joining\t Salary\t Address"<<endl;
+    e1.show();
+    e2.show();
+    e3.show();
+    return 0;
+}
